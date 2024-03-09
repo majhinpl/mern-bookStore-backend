@@ -1,0 +1,220 @@
+Day1 - Intro, how websites works.
+
+Frameworks - it has everything required to build something.
+
+Library - it has something but we can bring something from others.
+
+frontend - Reactjs, vuejs
+backed - nodejs
+database - mongodb, sql, nosql
+
+HTTP verb/method
+GET - to get something
+POST - to send something
+PATCH - some specific updates
+PUT - update everything. it will replace with new data.
+DELETE - to DELETE something
+
+
+Day2 - HTTP status code, Nodejs Intro
+
+HTTP status code - 
+1XX - Informational
+2XX - Success status
+3XX - Redurect
+4XX - client side error
+5XX - server/internal/hosting error
+
+Nodejs Intro
+1. Download Nodejs
+
+
+Day3 - npm, express, port numbers
+
+Project setup with nodejs
+
+1. create folder
+2. open folder to code editor.
+3. open cmd and initialize with npm init, npm init -y (flag)
+4. create a file with .js extention (app.js)
+5. nodejs Frameworks express. install with npm install express
+6. require packages. 
+const express = require('express');
+const app = express();
+
+port numbers
+7. create local server (host port). 
+app.listen(3000, () => {
+    console.log("Nodejs server has started at port 3000)
+})
+
+8. generate API.
+app.get("/", (req,res) => {
+    res.send("Hello World")
+})
+
+order - first req, second res.
+
+request, response cycle.
+if there is request there will be response as well.
+
+9. postman intro.
+
+Day4 - nodemon, json, data connections (atlas)
+1. nodejs auto start - 
+node --watch app.js (filename)
+
+2. nodemon
+installation - npm install nodemon -g
+
+3. custom nodejs start command
+edit development dependency alias
+"start" : "nodemon app.js"
+
+json (javascript object notation)
+it is lightweight
+1. to store data.
+2. transfer data.
+
+app.get("/", (req,res) => {
+    res.status().json({
+        "massage" : "success"
+    })
+})
+
+data connections (atlas)
+1. create a Project
+2. go to database - build a database - create username and password - finised and close.
+3. go to database - copy connection string.
+
+const connectToString = "mongodb+srv://majhintech:majhintech@cluster0.dgotzls.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+4. install data connection npm packages
+
+npm install mongoose
+
+create folder for database
+create file - index.js
+
+require packages
+const mongoose = require('mongoose);
+
+create function to connect the connection string
+
+async function connectToDatabase() {
+    await mongoose.connect(connectToString);
+    console.log("connected to database successfully");
+}
+
+module.exports = connectToDatabase;
+
+
+Day5 - Project backed starts, CR operation
+1. create folder for collection
+2. create file.js 
+3. require mongoose
+4. create new schema
+5. create model and exports.
+
+
+create API to create/post books.
+
+//Create operation
+
+create folder - file to model
+create model
+
+user json parcel to accept json data from body.
+app.use(express.json());
+
+create APR to create books.
+app.post("/book", aysinc (req,res) => {
+ await Book.create()
+}
+
+
+//Read operation
+to read all books
+Book.find()
+
+to read single book
+Book.findById(id)
+
+
+Day6 -  CR operation
+
+//delete operation
+app.delete("/book/:id",async(req,res)=>{
+    const id = req.params.id
+   await Book.findByIdAndDelete(id)
+   res.status(200).json({
+        message : "Book Deleted Successfully"
+   })
+})
+
+
+
+//update operation
+
+1. first get the book id which book to be updated.
+2. get what to be updated.
+
+app.patch("/book/:id",upload.single('image'), async (req,res)=>{
+    const id = req.params.id // kun book update garney id ho yo
+    const {title,ISBN,published,publisher,author,language,genre,description} = req.body
+
+    const oldDatas = await Book.findById(id)
+    let fileName;
+    if(req.file){
+        
+        const oldImagePath = oldDatas.imageUrl
+        console.log(oldImagePath)
+
+        const localHostUrlLength = "http://localhost:3000/".length
+
+        const newOldImagePath = oldImagePath.slice(localHostUrlLength)
+
+        console.log(newOldImagePath)
+
+        fs.unlink(`storage/${newOldImagePath}`,(err)=>{
+            if(err){
+                console.log(err)
+            }else{
+                console.log("File Deleted Successfully")
+            }
+        })
+        fileName = "http://localhost:3000/" + req.file.filename
+    }
+    await Book.findByIdAndUpdate(id,{
+        bookName,
+        ISBN,
+        published,
+        publisher,
+        bookPrice,
+        author,
+        language,
+        genre,
+        description,
+        imageUrl : fileName
+    })
+    res.status(200).json({
+        message : "Book Updated Successfully"
+    })
+})
+
+
+Day8 - file size, filetype
+
+
+Multer class 
+https://www.youtube.com/@digitalpathshala999/streams
+
+
+
+Day9 - Reactjs
+
+
+
+
+
+  
