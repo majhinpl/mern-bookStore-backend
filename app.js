@@ -4,7 +4,7 @@ const fs = require('fs')
 const connectToDatabase = require('./database')
 const Book = require('./model/bookModel')
 // multerconfig imports
-const {multer,storage} = require("./middleware/multerConfig")
+const {multer,storage} = require('./middleWare/multerConfig')
 const upload = multer({storage : storage})
  // Alternative 
 //  const app = require('express')()
