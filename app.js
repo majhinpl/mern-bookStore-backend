@@ -37,7 +37,7 @@ app.post("/book",upload.single("image") ,async(req,res)=>{
     if(!req.file){
         fileName = "https://cdn.vectorstock.com/i/preview-1x/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg"
     }else{
-       fileName = "http://localhost:3000/" + req.file.filename
+       fileName = "https://mern-book-store-frontend-gamma/" + req.file.filename
     }
    const {bookName,bookPrice,isbnNumber,authorName,publishedAt,publication} = req.body
    await Book.create({
@@ -99,7 +99,7 @@ app.patch("/book/:id",upload.single('image'), async (req,res)=>{
         
         const oldImagePath = oldDatas.imageUrl
         console.log(oldImagePath)
-        const localHostUrlLength = "http://localhost:3000/".length
+        const localHostUrlLength = "https://mern-book-store-frontend-gamma/".length
         const newOldImagePath = oldImagePath.slice(localHostUrlLength)
         console.log(newOldImagePath)
         fs.unlink(`storage/${newOldImagePath}`,(err)=>{
@@ -109,7 +109,7 @@ app.patch("/book/:id",upload.single('image'), async (req,res)=>{
                 console.log("File Deleted Successfully")
             }
         })
-        fileName = "http://localhost:3000/" + req.file.filename
+        fileName = "https://mern-book-store-frontend-gamma/" + req.file.filename
     }
     await Book.findByIdAndUpdate(id,{
         bookName : bookName,
