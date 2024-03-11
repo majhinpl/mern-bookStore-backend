@@ -31,12 +31,12 @@ app.get("/",(req,res)=>{
 })
 
 // create book
-app.post("/book",upload.single("image") ,async(req,res)=>{
+app.post("/book", upload.single("image"), async(req,res)=>{
 
     let fileName ;
     if(!req.file){
         fileName = "https://cdn.vectorstock.com/i/preview-1x/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg"
-    }else{
+    } else {
        fileName = "https://mern-bookstore-backend-rf03.onrender.com/" + req.file.filename
     }
    const {bookName,bookPrice,isbnNumber,authorName,publishedAt,publication} = req.body
