@@ -6,7 +6,7 @@ const Book = require('./model/bookModel');
 
 // multerconfig imports
 const { multer, storage } = require('./middleWare/multerConfig');
-const upload = multer({ storage : storage });
+const upload = multer({ storage : storage});
 
  // Alternative 
 //  const app = require('express')()
