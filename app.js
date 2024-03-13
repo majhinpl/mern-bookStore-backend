@@ -1,12 +1,11 @@
-const express = require('express');
-const app =  express();
-const fs = require('fs');
-const connectToDatabase = require('./database');
-const Book = require('./model/bookModel');
-
+const express = require('express')
+const app =  express()
+const fs = require('fs')
+const connectToDatabase = require('./database')
+const Book = require('./model/bookModel')
 // multerconfig imports
-const { multer, storage } = require('./middleWare/multerConfig');
-const upload = multer({ storage : storage});
+const {multer,storage} = require("./middleWare/multerConfig")
+const upload = multer({storage : storage})
 
  // Alternative 
 //  const app = require('express')()
@@ -65,7 +64,7 @@ app.get("/book",async (req,res)=>{
     })
 })
 
-// single read
+// single reads
 app.get("/book/:id",async(req,res)=>{
     const id = req.params.id
    const book = await Book.findById(id) // return object garxa
