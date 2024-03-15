@@ -38,11 +38,7 @@ app.post("/book", upload.single("image"), async(req,res)=>{
     if(!req.file){
         fileName = "https://cdn.vectorstock.com/i/preview-1x/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg"
     } else {
-       fileName = "https://mern-bookstore-backend-rf03.onrender.com/" + req.file.filename
-    }
-
-    if (req.file.size > 1024 * 1024) {
-        return res.status(400).send('File size exceeds the limit (1MB)');
+       fileName = "https://mern-bookstore-backend-rf03.onrender.com" + req.file.filename
     }
         
    const {bookName,bookPrice,isbnNumber,authorName,publishedAt,publication} = req.body
@@ -88,9 +84,26 @@ app.get("/book/:id",async(req,res)=>{
 
 //delete operation 
 app.delete("/book/:id",async(req,res)=>{
-    const id = req.params.id
-   await Book.findByIdAndDelete(id)
-   res.status(200).json({
+    const id = req.params.id     
+    const oldDatas = await Book.findById(id)
+    let fileName;
+    if(req.file){        
+        const oldImagePath = oldDatas.imageUrl;
+        console.log(oldImagePath);
+        const localHostUrlLength = "https://mern-bookstore-backend-rf03.onrender.com".length;
+        const newOldImagePath = oldImagePath.slice(localHostUrlLength)
+        console.log(newOldImagePath)
+        fs.unlink(`storage/${newOldImagePath}`,(err)=>{
+            if(err){
+                console.log(err)
+            }else{
+                console.log("File Deleted Successfully")
+            }
+        })
+        fileName = "https://mern-bookstore-backend-rf03.onrender.com" + req.file.filename
+    }  
+    await Book.findByIdAndDelete(id)  
+    res.status(200).json({
         message : "Book Deleted Successfully"
    })
 })
@@ -105,7 +118,7 @@ app.patch("/book/:id",upload.single('image'), async (req,res)=>{
         
         const oldImagePath = oldDatas.imageUrl
         console.log(oldImagePath)
-        const localHostUrlLength = "https://mern-bookstore-backend-rf03.onrender.com/".length
+        const localHostUrlLength = "https://mern-bookstore-backend-rf03.onrender.com".length
         const newOldImagePath = oldImagePath.slice(localHostUrlLength)
         console.log(newOldImagePath)
         fs.unlink(`storage/${newOldImagePath}`,(err)=>{
@@ -115,7 +128,7 @@ app.patch("/book/:id",upload.single('image'), async (req,res)=>{
                 console.log("File Deleted Successfully")
             }
         })
-        fileName = "https://mern-bookstore-backend-rf03.onrender.com/" + req.file.filename
+        fileName = "https://mern-bookstore-backend-rf03.onrender.com" + req.file.filename
     }
     await Book.findByIdAndUpdate(id,{
         bookName : bookName,
@@ -131,7 +144,7 @@ app.patch("/book/:id",upload.single('image'), async (req,res)=>{
     })
 })
 
-app.use(express.static("./storage/"))
+app.use(express.static("./storage"))
 
 app.listen(3000,()=>{
     console.log("Nodejs server has started at port 3000")
