@@ -40,6 +40,11 @@ app.post("/book", upload.single("image"), async(req,res)=>{
     } else {
        fileName = "https://mern-bookstore-backend-rf03.onrender.com/" + req.file.filename
     }
+
+    if (req.file.size > 1024 * 1024) {
+        return res.status(400).send('File size exceeds the limit (1MB)');
+    }
+        
    const {bookName,bookPrice,isbnNumber,authorName,publishedAt,publication} = req.body
    await Book.create({
         bookName,
